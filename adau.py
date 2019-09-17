@@ -3,7 +3,7 @@ import dspi2c
 from regmap import RegisterMap, Field
 import time
 
-class ADAU1761(DSPI2C):
+class ADAU1761(dspi2c.DSPI2C):
 
     rm = RegisterMap("ADAU1761", 0x4000)
     rm.addRegister(0x4000, [("CLKSRC", (3, 3)), ("INFREQ", (1, 2)), ("COREN", (0, 0))])
@@ -83,11 +83,11 @@ class ADAU1761(DSPI2C):
         self.writeReg(0x4000, [clkCtrl])
 
     def enableCoreClk(self):
-        r0 = self.readReg(0x4000)[0]
+        r0 = self.readReg(0x4000)
         self.writeReg(0x4000, [r0 | 0x01])
 
     def disableCoreClk(self):
-        r0 = self.readReg(0x4000)[0]
+        r0 = self.readReg(0x4000)
         self.writeReg(0x4000, [r0 & ~(0x01)])
 
     def checkPLLLocked(self):
@@ -104,11 +104,10 @@ class ADAU1761(DSPI2C):
 
 def main():
     dsp = ADAU1761(0x3b)
-    dsp.displayReg(0x4000)
+    dsp.showReg(0x4000)
     print("PLL Locked: {}".format(dsp.checkPLLLocked()))
-    dsp.enableCoreClk()
-    dsp.displayReg(0x4000)
-    dsp.displayReg(0x402D)
+    dsp.writeField("COREN", False)
+    dsp.showReg(0x4000)
 
 
 #reg_addr = 0x4002

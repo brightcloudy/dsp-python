@@ -8,7 +8,7 @@ def filled_bits(value: int = 0) -> Dict[int, int]:
         bits[i] = 1 if (value & (1 << i)) else 0
     return bits
 
-class Field(namedtuple('Field', ['name', 'bits', 'reg_addr'], defaults=["RSVD", (0, 7), 0x00])):
+class Field(namedtuple('Field', ['name', 'bits', 'reg_addr'])):
 
     def positionBits(self) -> List[int]:
         return list(range(self.bits[0], self.bits[1]+1))

@@ -20,7 +20,7 @@ class DSPI2C:
         msg_rd = i2c_msg.read(self.i2c_addr, num_bytes)
         self.bus.i2c_rdwr(msg_wr, msg_rd)
         rd_list = list(msg_rd)
-        return rd_lest[0] if len(rd_list) == 1 else rd_list
+        return rd_list[0] if len(rd_list) == 1 else rd_list
 
     def writeReg(self, reg_addr: int, data: Union[int, List[int]]) -> None:
         if isinstance(data, int):
